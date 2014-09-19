@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @song.title
+p
+  strong Artist:
+  = @song.artist
+p
+  strong Album:
+  = @song.album
+p
+  strong Year:
+  = @song.year
+p
+  strong Track:
+  = @song.track
+p
+  strong Length:
+  = @song.length
+
+= link_to 'Edit', edit_song_path(@song)
+'|
+= link_to 'Back', songs_path

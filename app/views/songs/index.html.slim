@@ -1,0 +1,31 @@
+h1 Listing songs
+
+table
+  thead
+    tr
+      th Title
+      th Artist
+      th Album
+      th Year
+      th Track
+      th Length
+      th
+      th
+      th
+
+  tbody
+    - @songs.each do |song|
+      tr
+        td = song.title
+        td = song.artist
+        td = song.album
+        td = song.year
+        td = song.track
+        td = song.length
+        td = link_to 'Show', song
+        td = link_to 'Edit', edit_song_path(song)
+        td = link_to 'Destroy', song, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Song', new_song_path
