@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140919163927) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "playlists", force: true do |t|
     t.string   "title"
     t.datetime "created_at"
@@ -24,7 +27,7 @@ ActiveRecord::Schema.define(version: 20140919163927) do
     t.integer "song_id",     null: false
   end
 
-  add_index "playlists_songs", ["playlist_id", "song_id"], name: "index_playlists_songs_on_playlist_id_and_song_id"
+  add_index "playlists_songs", ["playlist_id", "song_id"], name: "index_playlists_songs_on_playlist_id_and_song_id", using: :btree
 
   create_table "songs", force: true do |t|
     t.string   "title"
