@@ -24,4 +24,7 @@
   .field
     = f.label :length
     = f.text_field :length
+  .field
+    = f.label :playlist_ids, 'Playlists'
+    = f.collection_check_boxes :playlist_ids, Playlist.order(:title), :id, :title
   .actions = f.submit 'Save'

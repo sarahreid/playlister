@@ -1,8 +1,11 @@
 p#notice = notice
 
 p
-  strong Title:
-  = @playlist.title
+  strong = @playlist.title
+
+  ol
+    - @playlist.songs.each do |song|
+      li = song.title
 
 = link_to 'Edit', edit_playlist_path(@playlist)
 '|
