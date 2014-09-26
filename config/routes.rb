@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  get 'pages/welcome'
 
   resources :songs
 
   resources :playlists
 
-  root 'songs#index'
+  root 'pages#welcome'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
