@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'pages/welcome'
+
   resources :songs
 
   resources :playlists
