@@ -1,0 +1,16 @@
+nav.top-bar data-topbar=""
+  ul.title-area
+    li.name
+      h1
+        a href="/"
+          | Playlister
+    li.toggle-topbar.menu-icon
+      a href="#"
+        span menu
+  section.top-bar-section
+    ul.right
+      li.divider
+      li
+        = link_to "Playlists", playlists_path
+      li
+        = link_to "Songs", songs_path
