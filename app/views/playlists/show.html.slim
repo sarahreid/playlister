@@ -1,12 +1,8 @@
-p#notice = notice
-
-p
-  strong = @playlist.title
-
-  ol
-    - @playlist.songs.each do |song|
-      li = song.title
+h1= @playlist.title
+- if @playlist.songs.empty?
+  p This playlist is empty. Add a song!
+ol
+  - @playlist.songs.each do |song|
+    li= link_to song.title, song_path(song)
 
 = link_to 'Edit', edit_playlist_path(@playlist)
-'|
-= link_to 'Back', playlists_path
