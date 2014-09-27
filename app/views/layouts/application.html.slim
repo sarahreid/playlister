@@ -10,5 +10,6 @@ html lang="en"
   body
     = render "layouts/top_nav"
     = render "layouts/messages"
-    = yield
+    main
+      = yield
     = javascript_include_tag "application"
