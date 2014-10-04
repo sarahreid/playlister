@@ -17,6 +17,27 @@
 //= require turbolinks
 //= require_tree .
 
-$(document).on('page:change', function () {
-  $(document).foundation();
-});
+$(document).foundation();
+$(document).on('page:change', onPageChange);
+
+function onPageChange() {
+  $('form#song').on('submit', onSongFormSubmit);
+  $('form.new_playlist, form.edit_playlist').on('submit', onPlaylistFormSubmit);
+}
+
+function onSongFormSubmit() {
+  var songTitle = $(this).find('input#song_title').val();
+  if (songTitle.length === 0) return alertFieldError('song title is empty');
+  return true;
+}
+
+function onPlaylistFormSubmit() {
+  var playlistTitle = $(this).find('input#playlist_title').val();
+  if (playlistTitle.length === 0) return alertFieldError('playlist title is empty');
+  return true;
+}
+
+function alertFieldError(message) {
+  alert(message);
+  return false;
+}
