@@ -1,3 +1,14 @@
+.row
+  .small-12.large-6.columns
+    .row.collapse.field
+      .small-10.columns
+        input#soundcloud-query placeholder=("Search Soundcloud") type="text"
+      .small-2.columns
+        button#search-soundcloud.button.postfix Search
+.row
+  .small-12.columns
+    ul#soundcloud-results.small-block-grid-1
+
 = form_for @song, html: {id: 'song'} do |f|
   - if @song.errors.any?
     #error_explanation
@@ -6,6 +17,12 @@
         - @song.errors.full_messages.each do |message|
           li = message
 
+  .field
+    = f.label :soundcloud_id
+    = f.number_field :soundcloud_id
+  .field
+    = f.label :soundcloud_permalink_url
+    = f.text_field :soundcloud_permalink_url
   .field
     = f.label :title
     = f.text_field :title
