@@ -10,7 +10,21 @@ nav.top-bar data-topbar=""
   section.top-bar-section
     ul.right
       li.divider
-      li
-        = link_to "Playlists", playlists_path
-      li
-        = link_to "Songs", songs_path
+      - if current_user
+        li
+          = link_to "Playlists", playlists_path
+        li.divider
+        li
+          = link_to "Songs", songs_path
+        li.divider
+        li
+          = link_to 'Edit profile', edit_user_registration_path
+        li.divider
+        li
+          = link_to "Logout", destroy_user_session_path, method: :delete
+      - else
+        li
+          = link_to "Sign up", new_user_registration_path
+        li.divider
+        li
+          = link_to "Login", new_user_session_path
