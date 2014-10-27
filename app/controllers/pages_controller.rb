@@ -1,4 +1,5 @@
-class PagesController < ApplicationController
-  def welcome
+class PagesController < ActionController::Base
+	layout 'application'
+  def index
   end
 end
