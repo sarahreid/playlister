@@ -24,7 +24,7 @@ class PlaylistsController < ApplicationController
   # POST /playlists
   # POST /playlists.json
   def create
-    @playlist = Playlist.by_user(current_user).new(playlist_params)
+    @playlist = Playlist.by_user(current_user).new(playlist_params).tap{|p| p.current_user = current_user}
 
     respond_to do |format|
       if @playlist.save
@@ -41,7 +41,7 @@ class PlaylistsController < ApplicationController
   # PATCH/PUT /playlists/1.json
   def update
     respond_to do |format|
-      if @playlist.user == current_user && @playlist.update(playlist_params)
+      if @playlist.tap{|p| p.current_user = current_user}.update(playlist_params)
         format.html { redirect_to @playlist, notice: 'Playlist was successfully updated.' }
         format.json { render :show, status: :ok, location: @playlist }
       else
@@ -54,7 +54,7 @@ class PlaylistsController < ApplicationController
   # DELETE /playlists/1
   # DELETE /playlists/1.json
   def destroy
-    @playlist.user == current_user && @playlist.destroy
+    @playlist.tap{|p| p.current_user = current_user}.destroy
     respond_to do |format|
       format.html { redirect_to playlists_url, notice: 'Playlist was successfully destroyed.' }
       format.json { head :no_content }
