@@ -1,6 +1,4 @@
 class PlaylistsController < ApplicationController
-  before_action :set_playlist, only: [:show, :edit, :update, :destroy]
-
   # GET /playlists
   # GET /playlists.json
   def index
@@ -10,6 +8,7 @@ class PlaylistsController < ApplicationController
   # GET /playlists/1
   # GET /playlists/1.json
   def show
+    @playlist = Playlist.find(params[:id])
   end
 
   # GET /playlists/new
@@ -19,6 +18,7 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/1/edit
   def edit
+    @playlist = Playlist.find(params[:id])
   end
 
   # POST /playlists
@@ -40,6 +40,7 @@ class PlaylistsController < ApplicationController
   # PATCH/PUT /playlists/1
   # PATCH/PUT /playlists/1.json
   def update
+    @playlist = Playlist.find(params[:id])
     respond_to do |format|
       if @playlist.tap{|p| p.current_user = current_user}.update(playlist_params)
         format.html { redirect_to @playlist, notice: 'Playlist was successfully updated.' }
@@ -54,7 +55,7 @@ class PlaylistsController < ApplicationController
   # DELETE /playlists/1
   # DELETE /playlists/1.json
   def destroy
-    @playlist.tap{|p| p.current_user = current_user}.destroy
+    Playlist.find(params[:id]).tap{|p| p.current_user = current_user}.destroy
     respond_to do |format|
       format.html { redirect_to playlists_url, notice: 'Playlist was successfully destroyed.' }
       format.json { head :no_content }
@@ -62,11 +63,6 @@ class PlaylistsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_playlist
-      @playlist = Playlist.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def playlist_params
       params.require(:playlist).permit(:title)

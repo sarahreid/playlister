@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
 
   devise_for :users
-  resources :songs
 
-  resources :playlists
+  resources :playlists do
+    resources :songs
+  end
 
   root 'pages#welcome'
 

@@ -1,8 +1,9 @@
 h1= @playlist.title
 - if @playlist.songs.empty?
-  p This playlist is empty. Add a song!
+  p This playlist is empty.
+  = link_to 'Add a song!', new_playlist_song_path(@playlist), class: 'button'
 ol
   - @playlist.songs.each do |song|
-    li= link_to song.title, song_path(song)
+    li= link_to song.title, playlist_song_path(@playlist, song)
 
 = link_to 'Edit', edit_playlist_path(@playlist)

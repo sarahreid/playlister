@@ -15,4 +15,9 @@ class Song < ActiveRecord::Base
       raise ActiveRecord::RecordNotSaved
     end
   end
+
+  def destroy(args = {})
+    self.current_user = args[:current_user]
+    super()
+  end
 end

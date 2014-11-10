@@ -9,7 +9,7 @@
   .small-12.columns
     ul#soundcloud-results.small-block-grid-1
 
-= form_for @song, html: {id: 'song'} do |f|
+= form_for [@playlist, @song], html: {id: 'song'} do |f|
   - if @song.errors.any?
     #error_explanation
       h2 = "#{pluralize(@song.errors.count, "error")} prohibited this song from being saved:"
