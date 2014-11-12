@@ -88,6 +88,10 @@ function onAddToPlaylistButtonClick() {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
   var id = $(this).data('soundcloud-id'); // <<< weird-ass black magic
 
+  // $(this).html('adding...');
+  var renameButton = $(this).html.bind($(this)); // <<<< the devil has sadfljkdfs taken asjlkdflj over 666
+  renameButton('adding...');
+
   window.SC.get('/tracks/' + id, onTrack);
   function onTrack(track) {
     $('form#song input#song_soundcloud_id').val(track.id);
@@ -96,7 +100,14 @@ function onAddToPlaylistButtonClick() {
     $('form#song input#song_year').val(track.release_year);
     $('form#song input#song_artist').val(track.user.username);
     $('form#song input#song_length').val(track.duration * 0.001);
-    console.log(track);
+    $('form#song').submit();
+    // console.log(track);
+  }
+
+  // https://github.com/rails/jquery-ujs/wiki/ajax/
+  $('form#song').on('ajax:success', onSongAddSuccess);
+  function onSongAddSuccess(data, status, xhr) {
+    renameButton('added');
   }
 
   return false;

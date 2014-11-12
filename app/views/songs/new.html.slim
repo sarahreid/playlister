@@ -1,5 +1,22 @@
 h1 New song
 
-== render 'form'
+.row
+  .small-12.large-6.columns
+    .row.collapse.field
+      .small-10.columns
+        input#soundcloud-query placeholder=("Search Soundcloud") type="text"
+      .small-2.columns
+        button#search-soundcloud.button.postfix Search
+  .row
+    .small-12.columns
+      ul#soundcloud-results.small-block-grid-1
 
-= link_to 'Back', playlist_songs_path(@playlist)
+  = form_for [@playlist, @song], remote: true, html: {id: 'song'} do |f|
+    = f.hidden_field :soundcloud_id
+    = f.hidden_field :soundcloud_permalink_url
+    = f.hidden_field :title
+    = f.hidden_field :artist
+    = f.hidden_field :length
+
+
+= link_to 'Back', playlist_path(@playlist)
