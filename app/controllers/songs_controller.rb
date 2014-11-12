@@ -62,10 +62,7 @@ class SongsController < ApplicationController
   # DELETE /songs/1
   # DELETE /songs/1.json
   def destroy
-    @song = Song.find(params[:id])
-    @song.current_user = current_user
-    @song.destroy
-    @playlist.songs.delete(@song) # *collection* delete
+    @song = Song.playlist_remove(params[:id], current_user)
     respond_to do |format|
       format.html { redirect_to playlist_url(@playlist), notice: 'Song was successfully removed.' }
       format.json { head :no_content }
