@@ -95,6 +95,7 @@ function onAddToPlaylistButtonClick() {
     $('form#song input#song_title').val(track.title);
     $('form#song input#song_year').val(track.release_year);
     $('form#song input#song_artist').val(track.user.username);
+    $('form#song input#song_length').val(track.duration * 0.001);
     console.log(track);
   }
 

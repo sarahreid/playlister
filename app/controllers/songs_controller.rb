@@ -26,11 +26,16 @@ class SongsController < ApplicationController
   # POST /songs
   # POST /songs.json
   def create
-    @song = @playlist.songs.new(song_params)
+    if song_params[:soundcloud_id] and Song.exists?(soundcloud_id: song_params[:soundcloud_id])
+      @song = Song.find_by_soundcloud_id(song_params[:soundcloud_id])
+    else
+      @song = Song.new(song_params)
+    end
+    @playlist.songs << @song
 
     respond_to do |format|
       if @song.save
-        format.html { redirect_to playlist_song_url(@playlist, @song), notice: 'Song was successfully created.' }
+        format.html { redirect_to playlist_url(@playlist), notice: 'Song was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
@@ -79,7 +84,7 @@ class SongsController < ApplicationController
   def song_params
     params.
       require(:song).
-      permit(:soundcloud_id, :soundcloud_permalink_url, :title, :artist, :album, :year, :track, :length, :playlist_ids => []).
+      permit(:soundcloud_id, :soundcloud_permalink_url, :title, :artist, :album, :year, :track, :length).
       merge(current_user: current_user)
   end
 end
