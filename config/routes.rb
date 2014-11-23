@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     resources :songs
   end
 
+  # https://github.com/plataformatec/devise/wiki/How-To:-Define-resource-actions-that-require-authentication-using-routes.rb
+  authenticated :user do
+    root 'playlists#index', as: :authenticated_root
+  end
   root 'pages#welcome'
 
   # The priority is based upon order of creation: first created -> highest priority.
