@@ -1,0 +1,20 @@
+section#nav
+  .row
+    .small-9.columns
+      = link_to "Playlister", root_path, id: 'brand'
+    .small-3.columns
+      ul.button-group.right
+        li
+          = link_to "Sign In", new_user_session_path, class: 'button'
+
+section#hero
+  .row
+    .large-8.large-offset-2.columns
+      h1 Let Everyone DJ.
+      h2 With just a link, all partygoers can announce their faves directly on the playlist. And the music never stops.
+      = form_for(:user, url: user_registration_path) do |f|
+        .row.collapse
+          .medium-10.columns
+            = f.email_field :email, placeholder: 'email address'
+          .medium-2.columns
+            = f.submit 'Start Mixing', class: 'button postfix'

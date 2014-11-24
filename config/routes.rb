@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   authenticated :user do
     root 'playlists#index', as: :authenticated_root
   end
-  root 'pages#welcome'
+  root 'pages#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

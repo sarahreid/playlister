@@ -1,5 +1,5 @@
 class PagesController < ActionController::Base
-	layout 'application'
+	layout 'landing'
   def index
   end
 end
