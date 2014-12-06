@@ -59,7 +59,8 @@ function onSearchButtonClick() {
 
   var trackQuery = {
     q: queryInput.val(),
-    limit: 5
+    filter: 'public',
+    limit: 200 // maximum results so we can filter client-side
   }
 
   // Call our API using the SDK
@@ -72,7 +73,10 @@ function onSearchButtonClick() {
     if (!Array.isArray(tracks)) return false;
 
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-    tracks.forEach(showResult);
+    tracks.filter(streamable).slice(0,5).forEach(showResult);
+    function streamable(track) {
+      return track.streamable
+    }
     function showResult(track) {
       resultsList.append(resultListItem(track));
     }
