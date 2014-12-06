@@ -80,7 +80,7 @@ class SongsController < ApplicationController
   def song_params
     params.
       require(:song).
-      permit(:soundcloud_id, :soundcloud_permalink_url, :soundcloud_stream_url, :soundcloud_waveform_url, :soundcloud_artwork_url, :title, :artist, :album, :year, :track, :length).
+      permit(:soundcloud_id, :soundcloud_permalink_url, :soundcloud_stream_url, :soundcloud_waveform_url, :soundcloud_artwork_url, :title, :artist, :album, :year, :length).
       merge(current_user: current_user)
   end
 end
