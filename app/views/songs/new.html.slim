@@ -14,6 +14,9 @@ h1 New song
   = form_for [@playlist, @song], remote: true, html: {id: 'song'} do |f|
     = f.hidden_field :soundcloud_id
     = f.hidden_field :soundcloud_permalink_url
+    = f.hidden_field :soundcloud_artwork_url
+    = f.hidden_field :soundcloud_stream_url
+    = f.hidden_field :soundcloud_waveform_url
     = f.hidden_field :title
     = f.hidden_field :artist
     = f.hidden_field :length

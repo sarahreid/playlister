@@ -100,6 +100,9 @@ function onAddToPlaylistButtonClick() {
   function onTrack(track) {
     $('form#song input#song_soundcloud_id').val(track.id);
     $('form#song input#song_soundcloud_permalink_url').val(track.permalink_url);
+    $('form#song input#song_soundcloud_stream_url').val(track.stream_url);
+    $('form#song input#song_soundcloud_artwork_url').val(track.artwork_url);
+    $('form#song input#song_soundcloud_waveform_url').val(track.waveform_url);
     $('form#song input#song_title').val(track.title);
     $('form#song input#song_year').val(track.release_year);
     $('form#song input#song_artist').val(track.user.username);

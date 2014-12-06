@@ -6,10 +6,10 @@ h1
   p This playlist is empty.
 
 ol
-  - @playlist.playlists_songs.each do |playlists_song|
-    li id="#{playlists_song.id}"
-      = link_to playlists_song.song.title, playlist_song_path(@playlist, playlists_song.song)
+  - @playlist.playlists_songs.each do |relation|
+    li id="#{relation.id}" data-soundcloud-stream-url="#{relation.song.soundcloud_stream_url}"
+      = link_to relation.song.title, playlist_song_path(@playlist, relation.song)
       '
-      = link_to 'remove', playlist_song_path(@playlist, playlists_song), method: :delete, class: 'tiny button'
+      = link_to 'remove', playlist_song_path(@playlist, relation), method: :delete, class: 'tiny button'
 
 = link_to 'Add a song!', new_playlist_song_path(@playlist), class: 'button'
