@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require_tree .
 
+window.soundCloudClientId = "29ae6663c67b45c96926a8d575eeb418";
 $(document).foundation();
 
 // Events: https://github.com/rails/turbolinks/#events
@@ -34,7 +35,7 @@ function onPageChange() {
 }
 
 function onSC(script, textStatus) {
-  window.SC.initialize({client_id: "29ae6663c67b45c96926a8d575eeb418"});
+  window.SC.initialize({client_id: window.soundCloudClientId});
 }
 
 function onGetScriptFail(jqxhr, settings, exception) {
@@ -73,7 +74,7 @@ function onSearchButtonClick() {
     if (!Array.isArray(tracks)) return false;
 
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-    tracks.filter(streamable).slice(0,5).forEach(showResult);
+    tracks.filter(streamable).slice(0,20).forEach(showResult);
     function streamable(track) {
       return track.streamable
     }
@@ -138,7 +139,7 @@ function resultListItem(track) {
           '</div>',
           '<div class="row">',
             '<audio controls="controls" class="small-12 columns">',
-              '<source src="' + track.stream_url + '?client_id=29ae6663c67b45c96926a8d575eeb418" type="audio/mpeg">',
+              '<source src="' + track.stream_url + '?client_id=' + window.soundCloudClientId + '" type="audio/mpeg">',
             '</audio>',
           '</div>',
         '</div>',

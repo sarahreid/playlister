@@ -11,7 +11,7 @@ h1 New song
     .small-12.columns
       ul#soundcloud-results.small-block-grid-1
 
-  = form_for [@playlist, @song], remote: true, html: {id: 'song'} do |f|
+  = form_for [@playlist, @playlist.songs.new], remote: true, html: {id: 'song'} do |f|
     = f.hidden_field :soundcloud_id
     = f.hidden_field :soundcloud_permalink_url
     = f.hidden_field :soundcloud_artwork_url

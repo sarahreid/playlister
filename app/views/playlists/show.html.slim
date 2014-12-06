@@ -6,10 +6,6 @@ h1
   p This playlist is empty.
 
 ol
-  - @playlist.playlists_songs.each do |relation|
-    li id="#{relation.id}" data-soundcloud-stream-url="#{relation.song.soundcloud_stream_url}"
-      = link_to relation.song.title, playlist_song_path(@playlist, relation.song)
-      '
-      = link_to 'remove', playlist_song_path(@playlist, relation), method: :delete, class: 'tiny button'
+  = render partial: 'shared/playlists_song', collection: @playlist.playlists_songs, as: :playlists_song
 
 = link_to 'Add a song!', new_playlist_song_path(@playlist), class: 'button'
