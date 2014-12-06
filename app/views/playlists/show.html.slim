@@ -8,4 +8,23 @@ h1
 ol
   = render partial: 'shared/playlists_song', collection: @playlist.playlists_songs, as: :playlists_song
 
-= link_to 'Add a song!', new_playlist_song_path(@playlist), class: 'button'
+.row
+  .small-12.large-6.columns
+    .row.collapse.field
+      .small-10.columns
+        input#soundcloud-query placeholder=("Search Soundcloud") type="text"
+      .small-2.columns
+        button#search-soundcloud.button.postfix Add A Song
+  .row
+    .small-12.columns
+      ul#soundcloud-results.small-block-grid-1
+
+  = form_for [@playlist, @playlist.songs.new], remote: true, html: {id: 'song'} do |f|
+    = f.hidden_field :soundcloud_id
+    = f.hidden_field :soundcloud_permalink_url
+    = f.hidden_field :soundcloud_artwork_url
+    = f.hidden_field :soundcloud_stream_url
+    = f.hidden_field :soundcloud_waveform_url
+    = f.hidden_field :title
+    = f.hidden_field :artist
+    = f.hidden_field :length
