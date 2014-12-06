@@ -1,4 +1,4 @@
-class PlaylistsSong < ActiveRecord::Base
+class Track < ActiveRecord::Base
   belongs_to :playlist
   belongs_to :song
   acts_as_list scope: :playlist

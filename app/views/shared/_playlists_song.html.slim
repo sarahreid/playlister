@@ -1,4 +1,0 @@
-li id="#{playlists_song.id}" data-soundcloud-stream-url="#{playlists_song.song.soundcloud_stream_url}"
-  = link_to playlists_song.song.title, playlist_song_path(playlists_song.playlist, playlists_song.song)
-  '
-  = link_to 'remove', playlist_song_path(playlists_song.playlist, playlists_song), method: :delete, class: 'tiny button'

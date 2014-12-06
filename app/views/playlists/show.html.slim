@@ -6,7 +6,7 @@ h1
   p This playlist is empty.
 
 ol
-  = render partial: 'shared/playlists_song', collection: @playlist.playlists_songs, as: :playlists_song
+  = render partial: 'shared/track', collection: @playlist.tracks, as: :track
 
 .row
   .small-12.large-6.columns

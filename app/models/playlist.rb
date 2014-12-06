@@ -1,6 +1,6 @@
 class Playlist < ActiveRecord::Base
-  has_many :playlists_songs, -> { order("position ASC")}
-  has_many :songs, through: :playlists_songs
+  has_many :tracks, -> { order("position ASC")}
+  has_many :songs, through: :tracks
   belongs_to :user
   attr_accessor :current_user
 

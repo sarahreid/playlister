@@ -1,14 +1,14 @@
 class Song < ActiveRecord::Base
-  has_many :playlists_songs
-  has_many :playlists, through: :playlists_songs, after_add: :validate_current_user, after_remove: :validate_current_user
+  has_many :tracks
+  has_many :playlists, through: :tracks, after_add: :validate_current_user, after_remove: :validate_current_user
   attr_accessor :current_user
 
 	validates_presence_of :title
 
   def self.playlist_remove(join_id, current_user)
-    ps = PlaylistsSong.find(join_id)
-    user = ps.playlist.user
-    PlaylistsSong.delete(join_id) if user == current_user
+    track = Track.find(join_id)
+    user = track.playlist.user
+    Track.delete(join_id) if user == current_user
   end
 
   def initialize(args = {})
@@ -29,6 +29,6 @@ class Song < ActiveRecord::Base
   end
 
   def remove(join_id)
-    self.playlists_songs.delete(PlaylistSong.find(join_id))
+    self.tracks.delete(Track.find(join_id))
   end
 end

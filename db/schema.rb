@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206190357) do
+ActiveRecord::Schema.define(version: 20141206195543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,14 +24,6 @@ ActiveRecord::Schema.define(version: 20141206190357) do
   end
 
   add_index "playlists", ["user_id"], name: "index_playlists_on_user_id", using: :btree
-
-  create_table "playlists_songs", force: true do |t|
-    t.integer "playlist_id", null: false
-    t.integer "song_id",     null: false
-    t.integer "position"
-  end
-
-  add_index "playlists_songs", ["playlist_id", "song_id"], name: "index_playlists_songs_on_playlist_id_and_song_id", using: :btree
 
   create_table "songs", force: true do |t|
     t.string   "title"
@@ -48,6 +40,14 @@ ActiveRecord::Schema.define(version: 20141206190357) do
     t.string   "soundcloud_artwork_url"
     t.string   "soundcloud_waveform_url"
   end
+
+  create_table "tracks", force: true do |t|
+    t.integer "playlist_id", null: false
+    t.integer "song_id",     null: false
+    t.integer "position"
+  end
+
+  add_index "tracks", ["playlist_id", "song_id"], name: "index_tracks_on_playlist_id_and_song_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
