@@ -1,1 +1,1 @@
-$('ol').html("<%= escape_javascript(render partial: 'shared/track', collection: @playlist.tracks, as: :track) %>");
+$('#track-list').html("<%= escape_javascript(render partial: 'shared/tracks', locals: {tracks: @playlist.tracks}) %>");

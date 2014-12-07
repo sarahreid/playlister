@@ -1,4 +1,14 @@
 li id="#{track.id}" data-soundcloud-stream-url="#{track.song.soundcloud_stream_url}"
-  = link_to track.song.title, playlist_song_path(track.playlist, track.song)
-  '
-  = link_to 'remove', playlist_song_path(track.playlist, track), method: :delete, class: 'tiny button'
+  = link_to playlist_song_path(track.playlist, track), remote: true, method: :delete, class: 'remove'
+    i class="fa fa-close"
+
+  .artwork
+    - if track.song.soundcloud_artwork_url.present?
+      = image_tag track.song.soundcloud_artwork_url, size: '50x50'
+    - else
+      i class="fa fa-music"
+
+  = track.song.title
+
+  = link_to track.song.soundcloud_permalink_url, target: '_blank', class: 'option'
+    i class="fa fa-soundcloud"

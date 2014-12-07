@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 ruby '2.1.2'
 
@@ -42,6 +43,10 @@ gem 'rails_12factor'
 # Use Foundation 
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
+
+# gem 'rails-assets-jquery-hammerjs', '< 2.0.0'
+gem 'rails-assets-font-awesome'
+gem 'rails-assets-typeahead.js'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

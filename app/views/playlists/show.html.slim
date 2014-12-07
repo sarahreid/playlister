@@ -1,30 +1,24 @@
-h1
-  = @playlist.title
-  '
-  small= link_to 'Edit', edit_playlist_path(@playlist)
-- if @playlist.songs.empty?
-  p This playlist is empty.
-
-ol
-  = render partial: 'shared/track', collection: @playlist.tracks, as: :track
-
-.row
-  .small-12.large-6.columns
+#playlistControls.row.full-width
+  h1.small-12.large-4.columns
+    = @playlist.title
+    '
+    small= link_to 'Edit', edit_playlist_path(@playlist)
+  .small-12.large-4.columns
+    | {{Player}}
+  .small-12.large-4.columns
     .row.collapse.field
-      .small-10.columns
-        input#soundcloud-query placeholder=("Search Soundcloud") type="text"
-      .small-2.columns
-        button#search-soundcloud.button.postfix Add A Song
-  .row
-    .small-12.columns
-      ul#soundcloud-results.small-block-grid-1
+      .small-12.columns#fuckzurb
+        input#search-soundcloud placeholder=("song search") type="text"
 
-  = form_for [@playlist, @playlist.songs.new], remote: true, html: {id: 'song'} do |f|
-    = f.hidden_field :soundcloud_id
-    = f.hidden_field :soundcloud_permalink_url
-    = f.hidden_field :soundcloud_artwork_url
-    = f.hidden_field :soundcloud_stream_url
-    = f.hidden_field :soundcloud_waveform_url
-    = f.hidden_field :title
-    = f.hidden_field :artist
-    = f.hidden_field :length
+#track-list
+  = render partial: 'shared/tracks', locals: {tracks: @playlist.tracks}
+
+= form_for [@playlist, @playlist.songs.new], remote: true, html: {id: 'song'} do |f|
+  = f.hidden_field :soundcloud_id
+  = f.hidden_field :soundcloud_permalink_url
+  = f.hidden_field :soundcloud_artwork_url
+  = f.hidden_field :soundcloud_stream_url
+  = f.hidden_field :soundcloud_waveform_url
+  = f.hidden_field :title
+  = f.hidden_field :artist
+  = f.hidden_field :length

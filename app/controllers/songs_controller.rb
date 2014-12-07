@@ -64,6 +64,7 @@ class SongsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to playlist_url(@playlist), notice: 'Song was successfully removed.' }
       format.json { head :no_content }
+      format.js   { render :show }
     end
   end
 

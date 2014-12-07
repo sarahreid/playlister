@@ -1,0 +1,5 @@
+- if tracks.empty?
+  h4 This playlist is empty.
+
+ol
+  = render partial: 'shared/track', collection: tracks, as: :track

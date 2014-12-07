@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+// require hammerjs
+// require jquery-hammerjs
+//= require typeahead.js
 //= require foundation
 //= require turbolinks
 //= require_tree .
@@ -29,9 +32,37 @@ function onDocumentReady() {
 }
 
 function onPageChange() {
-  $('form#song').on('submit', onSongFormSubmit);
   $('form.new_playlist, form.edit_playlist').on('submit', onPlaylistFormSubmit);
-  $('button#search-soundcloud').on('click', onSearchButtonClick);
+
+  var searchInput = $('#search-soundcloud');
+  var searchSoundcloud = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: 'http://api.soundcloud.com/tracks?q=%QUERY&filter=public&limit=5&client_id='+window.soundCloudClientId+'&format=json&_status_code_map[302]=200'
+  });
+
+  searchSoundcloud.initialize();
+
+  searchInput.typeahead(null, {
+    name: 'search-results',
+    displayKey: 'title',
+    source: searchSoundcloud.ttAdapter()
+  });
+  searchInput.on('typeahead:selected typeahead:autocompleted', onSelect);
+  function onSelect(evt, track) {
+    $('form#song input#song_soundcloud_id').val(track.id);
+    $('form#song input#song_soundcloud_permalink_url').val(track.permalink_url);
+    $('form#song input#song_soundcloud_stream_url').val(track.stream_url);
+    $('form#song input#song_soundcloud_artwork_url').val(track.artwork_url);
+    $('form#song input#song_soundcloud_waveform_url').val(track.waveform_url);
+    $('form#song input#song_title').val(track.title);
+    $('form#song input#song_year').val(track.release_year);
+    $('form#song input#song_artist').val(track.user.username);
+    $('form#song input#song_length').val(track.duration * 0.001);
+    // $('form#song').trigger('submit.rails');
+    $('form#song').submit();
+    searchInput.typeahead('val', null);
+  }
 }
 
 function onSC(script, textStatus) {
@@ -42,112 +73,10 @@ function onGetScriptFail(jqxhr, settings, exception) {
   alert(exception);
 }
 
-function onSongFormSubmit() {
-  var songTitle = $(this).find('input#song_title').val();
-  if (songTitle.length === 0) return alertFieldError('song title is empty');
-  return true;
-}
-
 function onPlaylistFormSubmit() {
   var playlistTitle = $(this).find('input#playlist_title').val();
   if (playlistTitle.length === 0) return alertFieldError('playlist title is empty');
   return true;
-}
-
-function onSearchButtonClick() {
-  var queryInput = $('input#soundcloud-query');
-  var resultsList = $('ul#soundcloud-results');
-
-  var trackQuery = {
-    q: queryInput.val(),
-    filter: 'public',
-    limit: 200 // maximum results so we can filter client-side
-  }
-
-  // Call our API using the SDK
-  window.SC.get("/tracks", trackQuery, onTracks);
-  function onTracks(tracks) {
-    // Remove any previous results
-    resultsList.empty();
-
-    if (tracks == null) return false;
-    if (!Array.isArray(tracks)) return false;
-
-    // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-    tracks.filter(streamable).slice(0,20).forEach(showResult);
-    function streamable(track) {
-      return track.streamable
-    }
-    function showResult(track) {
-      resultsList.append(resultListItem(track));
-    }
-
-    $('button.add-to-playlist').on('click', onAddToPlaylistButtonClick);
-  }
-
-  return false;
-}
-
-function onAddToPlaylistButtonClick() {
-  // http://learn.jquery.com/javascript-101/this-keyword/
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
-  var id = $(this).data('soundcloud-id'); // <<< weird-ass black magic
-
-  // $(this).html('adding...');
-  var renameButton = $(this).html.bind($(this)); // <<<< the devil has sadfljkdfs taken asjlkdflj over 666
-  renameButton('adding...');
-
-  window.SC.get('/tracks/' + id, onTrack);
-  function onTrack(track) {
-    $('form#song input#song_soundcloud_id').val(track.id);
-    $('form#song input#song_soundcloud_permalink_url').val(track.permalink_url);
-    $('form#song input#song_soundcloud_stream_url').val(track.stream_url);
-    $('form#song input#song_soundcloud_artwork_url').val(track.artwork_url);
-    $('form#song input#song_soundcloud_waveform_url').val(track.waveform_url);
-    $('form#song input#song_title').val(track.title);
-    $('form#song input#song_year').val(track.release_year);
-    $('form#song input#song_artist').val(track.user.username);
-    $('form#song input#song_length').val(track.duration * 0.001);
-    $('form#song').submit();
-    // console.log(track);
-  }
-
-  // https://github.com/rails/jquery-ujs/wiki/ajax/
-  $('form#song').on('ajax:success', onSongAddSuccess);
-  function onSongAddSuccess(data, status, xhr) {
-    renameButton('added');
-  }
-
-  return false;
-}
-
-function resultListItem(track) {
-  return $('<li></li>')
-    .addClass('player-list-item')
-    .attr('id', 'track-'+track.id)
-    .html([
-      '<div class="row">',
-        '<img class="small-1 columns" src="' + (track.artwork_url || '//placehold.it/100x100') + '" />',
-        '<div class="small-2 columns">',
-          (track.user || {}).username,
-        '</div>',
-        '<div class="small-6 columns">',
-          '<div class="row">',
-            '<div class="small-12 columns">',
-              track.title,
-            '</div>',
-          '</div>',
-          '<div class="row">',
-            '<audio controls="controls" class="small-12 columns">',
-              '<source src="' + track.stream_url + '?client_id=' + window.soundCloudClientId + '" type="audio/mpeg">',
-            '</audio>',
-          '</div>',
-        '</div>',
-        '<div class="small-3 columns">',
-          '<button class="add-to-playlist" data-soundcloud-id="' + track.id + '">Add to Playlist</button>',
-        '</div>',
-      '</div>'
-    ].join('\n'))
 }
 
 function alertFieldError(message) {
