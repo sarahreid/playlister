@@ -1,4 +1,4 @@
-li data-id="#{track.id}" data-stream-url="#{track.song.soundcloud_stream_url}"
+li data-id="#{track.id}" data-stream-url="#{track.song.soundcloud_stream_url}" class="#{track.playing? ? 'playing' : ''}"
   - if user_signed_in?
     = link_to playlist_song_path(track.playlist, track), remote: true, method: :delete, class: 'remove'
       i class="fa fa-close"

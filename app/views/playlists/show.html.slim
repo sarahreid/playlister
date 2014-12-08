@@ -14,7 +14,7 @@
       .small-12.columns
         input#search-soundcloud placeholder=("song search") type="text"
 
-#track-list
+#track-list data-id="#{@playlist.id}"
   = render partial: 'shared/tracks', locals: {tracks: @playlist.tracks}
 
 - if user_signed_in?
@@ -29,3 +29,6 @@
   = f.hidden_field :title
   = f.hidden_field :artist
   = f.hidden_field :length
+
+= form_for @playlist, remote: true, html: {id: 'track'} do |f|
+  = f.hidden_field :playing_track_id

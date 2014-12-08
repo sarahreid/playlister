@@ -33,7 +33,6 @@ function onDocumentReady() {
 }
 
 function onPageChange() {
-  $('form.new_playlist, form.edit_playlist').on('submit', onPlaylistFormSubmit);
   window.player = new Player(soundCloudClientId, '#track-list', 'audio');
 
   var searchInput = $('#search-soundcloud');
@@ -82,12 +81,6 @@ function onSC(script, textStatus) {
 
 function onGetScriptFail(jqxhr, settings, exception) {
   alert(exception);
-}
-
-function onPlaylistFormSubmit() {
-  var playlistTitle = $(this).find('input#playlist_title').val();
-  if (playlistTitle.length === 0) return alertFieldError('playlist title is empty');
-  return true;
 }
 
 function alertFieldError(message) {

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {registrations: 'registrations'}
 
+  get '/stream/:id' => 'streams#show'
   resources :playlists, except: [:show, :edit, :update, :destroy] do
     resources :songs
   end

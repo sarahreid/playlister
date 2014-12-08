@@ -35,5 +35,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # Enable Parrallel Requests
+  # config.preload_frameworks = true
+  config.allow_concurrency = true
+
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end

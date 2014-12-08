@@ -1,30 +1,22 @@
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!, except: :show
 
-  # GET /playlists
-  # GET /playlists.json
   def index
     @playlists = Playlist.by_user(current_user)
   end
 
-  # GET /playlists/1
-  # GET /playlists/1.json
   def show
     @playlist = Playlist.friendly.find(params[:id])
   end
 
-  # GET /playlists/new
   def new
     @playlist = Playlist.new
   end
 
-  # GET /playlists/1/edit
   def edit
     @playlist = Playlist.friendly.find(params[:id])
   end
 
-  # POST /playlists
-  # POST /playlists.json
   def create
     @playlist = Playlist.by_user(current_user).new(playlist_params).tap{|p| p.current_user = current_user}
 
@@ -39,8 +31,6 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /playlists/1
-  # PATCH/PUT /playlists/1.json
   def update
     @playlist = Playlist.friendly.find(params[:id])
     respond_to do |format|
@@ -54,8 +44,6 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  # DELETE /playlists/1
-  # DELETE /playlists/1.json
   def destroy
     Playlist.friendly.find(params[:id]).tap{|p| p.current_user = current_user}.destroy
     respond_to do |format|
@@ -67,6 +55,6 @@ class PlaylistsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def playlist_params
-      params.require(:playlist).permit(:title)
+      params.require(:playlist).permit(:title, :playing_track_id)
     end
 end
