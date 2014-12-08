@@ -7,6 +7,7 @@ class Track < ActiveRecord::Base
     self.id == playlist.playing_track_id
   end
 
+  #notify playlist channel whenever something changes
   after_create :notify_track_creation
   def notify_track_creation
     ActiveRecord::Base.connection_pool.with_connection do |connection|
