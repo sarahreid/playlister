@@ -24,6 +24,7 @@
     this.player = $(this.playerId);
     this.playBtn = $(this.playBtnId);
     this.pauseBtn = $(this.pauseBtnId);
+    if (!this.player.length) return;
     this.trackList.on('change', this.addListeners.bind(this));
     this.trackList.on('change', this._showPlaying.bind(this));
     this.player.on('ended', this._onTrackEnded.bind(this));

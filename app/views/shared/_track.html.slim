@@ -1,6 +1,7 @@
 li data-id="#{track.id}" data-stream-url="#{track.song.soundcloud_stream_url}"
-  = link_to playlist_song_path(track.playlist, track), remote: true, method: :delete, class: 'remove'
-    i class="fa fa-close"
+  - if user_signed_in?
+    = link_to playlist_song_path(track.playlist, track), remote: true, method: :delete, class: 'remove'
+      i class="fa fa-close"
 
   .artwork
     - if track.song.soundcloud_artwork_url.present?

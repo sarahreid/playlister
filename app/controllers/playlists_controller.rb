@@ -1,4 +1,6 @@
 class PlaylistsController < ApplicationController
+  before_action :authenticate_user!, except: :show
+
   # GET /playlists
   # GET /playlists.json
   def index
