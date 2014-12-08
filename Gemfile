@@ -42,6 +42,9 @@ gem 'spring',        group: :development
 # Enable all Heroku features
 gem 'rails_12factor'
 
+# Heroku style application boot
+gem 'foreman'
+
 # Use Foundation 
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
