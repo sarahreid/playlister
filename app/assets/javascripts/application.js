@@ -42,7 +42,7 @@ function onPageChange() {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     limit: 20,
     remote: {
-      url: 'http://api.soundcloud.com/tracks?q=%QUERY&filter=public&limit=20&client_id='+soundCloudClientId+'&format=json&_status_code_map[302]=200',
+      url: 'https://api.soundcloud.com/tracks?q=%QUERY&filter=public&limit=20&client_id='+soundCloudClientId+'&format=json&_status_code_map[302]=200',
       filter: function trackFilter(tracks) {
         return tracks.filter(function isStreamable(track) { return track.streamable === true })
       },
