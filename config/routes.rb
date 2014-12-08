@@ -2,8 +2,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {registrations: 'registrations'}
 
-  resources :playlists do
+  resources :playlists, except: [:show, :edit, :update, :destroy] do
     resources :songs
+  end
+  scope do
+    resources :playlists, path: '', only: [:show, :edit, :update, :destroy]
   end
 
   # https://github.com/plataformatec/devise/wiki/How-To:-Define-resource-actions-that-require-authentication-using-routes.rb
