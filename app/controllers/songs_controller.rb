@@ -1,31 +1,23 @@
 class SongsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :create
   before_action :set_playlist
 
-  # GET /songs
-  # GET /songs.json
   def index
     @songs = @playlist.songs
   end
 
-  # GET /songs/1
-  # GET /songs/1.json
   def show
     @song = @playlist.songs.find(params[:id])
   end
 
-  # GET /songs/new
   def new
     @song = @playlist.songs.new
   end
 
-  # GET /songs/1/edit
   def edit
     @song = @playlist.songs.find(params[:id])
   end
 
-  # POST /songs
-  # POST /songs.json
   def create
     @song = Song.find_or_initialize_by(soundcloud_id: song_params[:soundcloud_id])
     @song.assign_attributes(song_params)
@@ -43,8 +35,6 @@ class SongsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /songs/1
-  # PATCH/PUT /songs/1.json
   def update
     @song = @playlist.songs.find(params[:id])
     respond_to do |format|
@@ -58,8 +48,6 @@ class SongsController < ApplicationController
     end
   end
 
-  # DELETE /songs/1
-  # DELETE /songs/1.json
   def destroy
     @song = Song.playlist_remove(params[:id], current_user)
     respond_to do |format|
