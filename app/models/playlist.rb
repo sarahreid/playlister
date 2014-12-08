@@ -1,4 +1,6 @@
 class Playlist < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :title, use: :slugged
   has_many :tracks, -> { order("position ASC")}
   has_many :songs, through: :tracks
   belongs_to :user

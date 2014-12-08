@@ -74,7 +74,7 @@ class SongsController < ApplicationController
   end
 
   def playlist
-    Playlist.find(params[:playlist_id])
+    Playlist.friendly.find(params[:playlist_id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

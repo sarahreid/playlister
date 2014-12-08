@@ -32,6 +32,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Orders model objects la la la
 gem 'acts_as_list'
+# Use Friendly ID for human readable roots
+gem 'friendly_id', '~> 5.0.0'
 # Use Devise
 gem 'devise'
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

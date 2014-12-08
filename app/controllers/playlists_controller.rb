@@ -8,7 +8,7 @@ class PlaylistsController < ApplicationController
   # GET /playlists/1
   # GET /playlists/1.json
   def show
-    @playlist = Playlist.find(params[:id])
+    @playlist = Playlist.friendly.find(params[:id])
   end
 
   # GET /playlists/new
@@ -18,7 +18,7 @@ class PlaylistsController < ApplicationController
 
   # GET /playlists/1/edit
   def edit
-    @playlist = Playlist.find(params[:id])
+    @playlist = Playlist.friendly.find(params[:id])
   end
 
   # POST /playlists
@@ -40,7 +40,7 @@ class PlaylistsController < ApplicationController
   # PATCH/PUT /playlists/1
   # PATCH/PUT /playlists/1.json
   def update
-    @playlist = Playlist.find(params[:id])
+    @playlist = Playlist.friendly.find(params[:id])
     respond_to do |format|
       if @playlist.tap{|p| p.current_user = current_user}.update(playlist_params)
         format.html { redirect_to @playlist, notice: 'Playlist was successfully updated.' }
@@ -55,7 +55,7 @@ class PlaylistsController < ApplicationController
   # DELETE /playlists/1
   # DELETE /playlists/1.json
   def destroy
-    Playlist.find(params[:id]).tap{|p| p.current_user = current_user}.destroy
+    Playlist.friendly.find(params[:id]).tap{|p| p.current_user = current_user}.destroy
     respond_to do |format|
       format.html { redirect_to playlists_url, notice: 'Playlist was successfully destroyed.' }
       format.json { head :no_content }
