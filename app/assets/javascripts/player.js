@@ -17,7 +17,8 @@
     this.playBtn = $(this.playBtnId);
     this.pauseBtn = $(this.pauseBtnId);
     this.publishTrack = $('#track #playlist_playing_track_id');
-    if (!this.player.length) return this._subscribe();
+    this._subscribe();
+    if (!this.player.length) return;
     this.trackList.on('change', this.addListeners.bind(this));
     this.trackList.on('change', this._showPlaying.bind(this));
     this.player.on('ended', this._onTrackEnded.bind(this));
@@ -64,7 +65,9 @@
   // to listen only for events on this playlist.
   Player.prototype._subscribe = function () {
     var src = new EventSource('/stream/' + this.trackList.data('id'));
-    src.addEventListener('track_id', this._onStreamedTrack.bind(this));
+    src.addEventListener('playing_track', this._onStreamedTrack.bind(this));
+    src.addEventListener('created_track', this._onCreatedTrack.bind(this));
+    src.addEventListener('destroyed_track', this._onDestroyedTrack.bind(this));
   };
 
   // Parse using JSON to get loaded track element, add "playing" class
@@ -72,6 +75,16 @@
   Player.prototype._onStreamedTrack = function (evt) {
     if (!evt.data) return;
     this._loadedTrackElement(JSON.parse(evt.data).track_id).addClass('playing').siblings().removeClass('playing');
+  };
+
+  Player.prototype._onCreatedTrack = function (evt) {
+    if (!evt.data) return;
+    if (!this._loadedTrackElement(JSON.parse(evt.data).track_id).length) $('#refresh').click()
+  };
+
+  Player.prototype._onDestroyedTrack = function (evt) {
+    if (!evt.data) return;
+    this._loadedTrackElement(JSON.parse(evt.data).track_id).remove();
   };
 
   // Proxy to native audio element
@@ -94,6 +107,7 @@
   // Show pause button when playing and
   // Keep UI in sync with audio element
   Player.prototype._showPlaying = function (evt) {
+    if (!this.loadedId) return;
     this._loadedTrackElement().addClass('playing').siblings().removeClass('playing');
     this.playBtn.hide();
     this.pauseBtn.show();

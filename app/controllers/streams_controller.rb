@@ -8,8 +8,8 @@ class StreamsController < ApplicationController
   def show
     response.content_type = "text/event-stream"
     begin
-      Playlist.friendly.find(params[:id]).on_track_change do |track_id|
-        response.stream.write(sse({track_id: track_id}, {event: 'track_id'}))
+      Playlist.friendly.find(params[:id]).on_track_change do |event, track_id|
+        response.stream.write(sse({track_id: track_id}, {event: event}))
       end
     rescue IOError
       # gracefully handle client disconnect

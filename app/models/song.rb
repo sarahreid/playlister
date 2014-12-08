@@ -8,7 +8,7 @@ class Song < ActiveRecord::Base
   def self.playlist_remove(join_id, current_user)
     track = Track.find(join_id)
     user = track.playlist.user
-    Track.delete(join_id) if user == current_user
+    Track.destroy(join_id) if user == current_user
   end
 
   def initialize(args = {})

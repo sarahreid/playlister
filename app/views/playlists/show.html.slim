@@ -32,3 +32,5 @@
 
 = form_for @playlist, remote: true, html: {id: 'track'} do |f|
   = f.hidden_field :playing_track_id
+
+= link_to 'refresh', playlist_songs_path(@playlist), remote: true, id: 'refresh', style: 'display: none'

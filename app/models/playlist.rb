@@ -19,7 +19,7 @@ class Playlist < ActiveRecord::Base
     if playing_track_id_changed?    # ignore changes that don't affect playing_track_id
       # https://github.com/rails/rails/blob/4-1-stable/activerecord/lib/active_record/connection_adapters/abstract/connection_pool.rb#L13
       ActiveRecord::Base.connection_pool.with_connection do |connection|
-        connection.execute "NOTIFY #{channel}, #{connection.quote playing_track_id.to_s}" # executed on a connection thread
+        connection.execute "NOTIFY #{playing_channel}, #{connection.quote playing_track_id.to_s}" # executed on a connection thread
       end
     end
   end
@@ -28,20 +28,41 @@ class Playlist < ActiveRecord::Base
   def on_track_change
     ActiveRecord::Base.connection_pool.with_connection do |connection|
       begin
-        connection.execute "LISTEN #{channel}"
+        connection.execute "LISTEN #{playing_channel}"
+        connection.execute "LISTEN #{created_channel}"
+        connection.execute "LISTEN #{destroyed_channel}"
         loop do
           connection.raw_connection.wait_for_notify do |event, pid, track_id|
-            yield track_id
+            case event
+            when playing_channel
+              yield 'playing_track', track_id
+            when created_channel
+              yield 'created_track', track_id
+            when destroyed_channel
+              yield 'destroyed_track', track_id
+            else
+              yield event, track_id
+            end
           end
         end
       ensure
-        connection.execute "UNLISTEN #{channel}"
+        connection.execute "UNLISTEN #{playing_channel}"
+        connection.execute "UNLISTEN #{created_channel}"
+        connection.execute "UNLISTEN #{destroyed_channel}"
       end
     end
   end
 
   private
-  def channel
-    "playlist_#{id}"
+  def playing_channel
+    "playlist_#{id}_playing"
+  end
+
+  def created_channel
+    "playlist_#{id}_created"
+  end
+
+  def destroyed_channel
+    "playlist_#{id}_destroyed"
   end
 end

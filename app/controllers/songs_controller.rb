@@ -1,9 +1,13 @@
 class SongsController < ApplicationController
-  before_action :authenticate_user!, except: :create
+  before_action :authenticate_user!, except: [:index, :create]
   before_action :set_playlist
 
   def index
     @songs = @playlist.songs
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :show }
+    end
   end
 
   def show
