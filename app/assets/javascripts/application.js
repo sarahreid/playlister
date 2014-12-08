@@ -60,6 +60,7 @@ function onPageChange() {
   });
   searchInput.on('typeahead:selected typeahead:autocompleted', onSelect);
   function onSelect(evt, track) {
+    console.log('onSelect', evt, track);
     $('form#song input#song_soundcloud_id').val(track.id);
     $('form#song input#song_soundcloud_permalink_url').val(track.permalink_url);
     $('form#song input#song_soundcloud_stream_url').val(track.stream_url);
