@@ -20,7 +20,8 @@
 //= require turbolinks
 //= require_tree .
 
-window.soundCloudClientId = "29ae6663c67b45c96926a8d575eeb418";
+(function () {
+var soundCloudClientId = "29ae6663c67b45c96926a8d575eeb418";
 $(document).foundation();
 
 // Events: https://github.com/rails/turbolinks/#events
@@ -33,12 +34,21 @@ function onDocumentReady() {
 
 function onPageChange() {
   $('form.new_playlist, form.edit_playlist').on('submit', onPlaylistFormSubmit);
+  window.player = new Player(soundCloudClientId, '#track-list', 'audio');
 
   var searchInput = $('#search-soundcloud');
   var searchSoundcloud = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    remote: 'http://api.soundcloud.com/tracks?q=%QUERY&filter=public&limit=5&client_id='+window.soundCloudClientId+'&format=json&_status_code_map[302]=200'
+    limit: 20,
+    remote: {
+      url: 'http://api.soundcloud.com/tracks?q=%QUERY&filter=public&limit=20&client_id='+soundCloudClientId+'&format=json&_status_code_map[302]=200',
+      filter: function trackFilter(tracks) {
+        return tracks.filter(function isStreamable(track) { return track.streamable === true })
+      },
+      rateLimitBy: 'debounce',
+      rateLimitWait: 50
+    }
   });
 
   searchSoundcloud.initialize();
@@ -66,7 +76,7 @@ function onPageChange() {
 }
 
 function onSC(script, textStatus) {
-  window.SC.initialize({client_id: window.soundCloudClientId});
+  window.SC.initialize({client_id: soundCloudClientId});
 }
 
 function onGetScriptFail(jqxhr, settings, exception) {
@@ -84,3 +94,4 @@ function alertFieldError(message) {
   return false;
 }
 
+})();

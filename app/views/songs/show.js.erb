@@ -1,1 +1,3 @@
-$('#track-list').html("<%= escape_javascript(render partial: 'shared/tracks', locals: {tracks: @playlist.tracks}) %>");
+var trackList = $('#track-list');
+trackList.html("<%= escape_javascript(render partial: 'shared/tracks', locals: {tracks: @playlist.tracks}) %>");
+trackList.change();
