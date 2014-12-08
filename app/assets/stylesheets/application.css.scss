@@ -96,6 +96,9 @@ $artwork-size: 30px;
       width: 100%;
       height: $artwork-size + 2px;
       line-height: $artwork-size;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      white-space: nowrap;
       &:before {
         content: counter(track-list) " ";
         counter-increment: track-list;
