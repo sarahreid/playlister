@@ -1,21 +1,17 @@
-h1 Listing playlists
+h1
+  ' Your playlists
+  small = link_to 'new', new_playlist_path
 
-table
+table class="full-width"
   thead
     tr
       th Title
-      th
-      th
-      th
 
   tbody
     - @playlists.each do |playlist|
       tr
-        td = playlist.title
-        td = link_to 'Show', playlist
-        td = link_to 'Edit', edit_playlist_path(playlist)
-        td = link_to 'Destroy', playlist, data: {:confirm => 'Are you sure?'}, :method => :delete
-
-br
-
-= link_to 'New Playlist', new_playlist_path
+        td
+          = link_to playlist.title, playlist_path(playlist)
+          '
+          = link_to playlist, data: {:confirm => 'Are you sure?'}, :method => :delete
+            i class="fa fa-close"
