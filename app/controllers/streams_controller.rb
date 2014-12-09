@@ -39,7 +39,7 @@ class StreamsController < ApplicationController
   include ActionController::Live
 
   def show
-    response.content_type = "text/event-stream"
+    response.content_type = "text/event-stream" unless response.headers.frozen? # WTF are headers frozen!
     begin
       Playlist.friendly.find(params[:id]).on_track_change do |event, data|
         if event == 'heartbeat'
